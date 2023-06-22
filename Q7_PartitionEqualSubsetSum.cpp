@@ -112,6 +112,42 @@ bool getAnsUsingTabulation(vector<int>&nums  ,int targetSum){
 }
 
 
+bool Spaceoptimised(vector<int>&nums , int targetSum){
+       //initializing the n value
+    int n = nums.size();
+    
+    //creating the 2d dp array 
+    vector<int>curr(targetSum+1 , 0);
+    vector<int>next(targetSum+1 , 0);
+
+    //analizing base cases 
+    curr[0] = 1;
+    next[0] = 1;
+    
+    
+
+    for(int index = n-1 ; index >= 0; index--){
+        for(int tSum = 1 ; tSum <= targetSum; tSum++){
+            bool include =0;
+            if(tSum-nums[index] >= 0){
+
+                 include= next[tSum-nums[index]];
+            }
+             bool exclude = next[tSum];
+
+            curr[tSum] =  (include || exclude);
+        // the above is quite confusing remember curr and next respecitvely 
+
+        }
+        next = curr;
+    }
+       return next[targetSum];
+
+
+
+
+}
+
 
 bool isPartitionPossible(vector<int> &nums)
 {
@@ -137,16 +173,20 @@ bool isPartitionPossible(vector<int> &nums)
     vector<vector<int>> dpArray(nums.size(), vector<int>(targetSum + 1, -1));
     // return AnsUsingMemoisation(nums, index, targetSum, dpArray);
 
-    return getAnsUsingTabulation(nums, targetSum);
+    // return getAnsUsingTabulation(nums, targetSum);
+    return Spaceoptimised(nums, targetSum);
 
     // return ans;
 }
+
+
 };
 
 
 
 int main(){
-    vector<int>nums{1,5,11,5};      //test case for true
+    // vector<int>nums{1,5,11,5};      //test case for true
+    vector<int>nums{1,5,2};      //test case for true
     // vector<int> nums{1, 2, 3, 5}; // test case for false
 
     /// solution
